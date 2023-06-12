@@ -1,15 +1,36 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View,
+import 
+{ 
+ScrollView, 
+StyleSheet, 
+Text, 
+TouchableOpacity,
+View,
 Dimensions, 
 Image,
-Button} from 'react-native';
+Button,
+TouchableNativeFeedback,
+TextInput,
+}
+ from 'react-native';
+import {db} from "./firebase";
+import { collection, addDoc } from "firebase/firestore";
 
-//! Impotações do react navigation
+
+
+//!      Impotações do react navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+//Todo   Importação do expo web
+import * as WebBrowser from 'expo-web-browser';
+
+//*       Iconis
+
+import { AntDesign } from '@expo/vector-icons'; 
 
 
 function HomeScreen({navigation}) {
@@ -62,9 +83,168 @@ function HomeScreen({navigation}) {
 }
 
 function SobreScreen() {
+  const [showModal, setShowModal] = useState(false);
+  const [nome, setNome] = useState('');
+  const [messagem, setMessagem] = useState('');
+
+  let windowWidth = Dimensions.get('window').width - 30 - 40;
+
+  const abrirModalContato = () => {
+    setShowModal(true);
+  }
+
+  const EnviarFormulario = async () => {
+      const docRef = await db.collection("contato").add({
+      nome: nome,
+      mensagem: messagem,
+    });
+    
+  
+      alert("Sua mensagem foi enviada com sucesso!");
+      setShowModal(!showModal);
+      setNome("");
+      setMessagem("");
+    
+  };
+  
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Sobre Screen</Text>
+    <View
+    style={{  
+      flex: 1,
+    
+      }}
+    >
+
+      {
+       showModal? (
+        <TouchableNativeFeedback
+        onPress={() => setShowModal(false)}>
+        <View
+        style={styles.modalParent}>
+
+       <TouchableNativeFeedback>
+              
+       <View
+        style={styles.boxModal}>
+
+           <AntDesign name="close" size={24} color="black" 
+              onPress={() => setShowModal(false)}
+              style={styles.close}
+              />
+              <Text
+          style={{...styles.textHeader, fontSize: 24, borderBottomWidth: 0,}}
+          >
+              Entrar em contato 
+         </Text> 
+
+         <Text
+          style={{...styles.textHeader, fontSize: 20, borderBottomWidth: 0,}}
+          >
+          Qual é o seu nome? 
+         </Text>   
+
+        <TextInput
+        style={styles.textInput}
+        placeholder='Escreva o seu nome'
+        onChangeText={(text) => setNome(text)}
+        >
+          
+        </TextInput>
+
+        <Text
+          style={{...styles.textHeader, fontSize: 20, borderBottomWidth: 0,}}
+          >
+          Qual é a sua mensagem? 
+         </Text>   
+
+        <TextInput
+        style={{...styles.textInput,  height: 80}}
+        placeholder='Escreva o sua mensagem'
+        onChangeText={(text) => setMessagem(text)}
+        >
+          
+        </TextInput>
+
+        <Button
+        title='Enviar!'
+        onPress={EnviarFormulario}
+        >
+        
+        </Button>
+         
+       </View>
+       </TouchableNativeFeedback>
+
+
+        </View>
+        </TouchableNativeFeedback>
+
+      ) : (
+        <View></View>
+
+      )
+
+      }
+
+    <View style={{ 
+      padding: 15, 
+      flex: 1,
+    
+      }}>
+        <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ padding: 20}}>
+
+          <Text
+          style={{... styles.textHeader, 
+            marginHorizontal: 50,
+          }}
+          >
+            Sobre
+          </Text>
+
+          <Image
+          style={{
+            width: windowWidth,
+            height: windowWidth,
+            marginTop: 20,
+          }}
+          source={{
+            uri: `https://thicc.mywaifulist.moe/waifus/2108/1e10867a3dae59140fc4017543479f862fe3cec9e9c100d58ff112a655531d26_thumb.jpg`
+          }}/>
+
+          <View style={styles.divParagrafo}>
+
+            <Text style={styles.tituloImage}>
+                Teste / desenvolvdedor front-end
+            </Text>
+
+            <Text style={styles.paragrafo}>
+                
+Nesta aba, você verá informações sobre o nome da nossa empresa, como trabalhamos, o preço para criarmos um web app ou um app, a nossa história e muito mais. Estamos comprometidos em oferecer soluções digitais de alta qualidade e personalizadas para atender às necessidades do seu negócio. Aqui, você encontrará detalhes sobre os serviços que oferecemos, as tecnologias que utilizamos e os projetos que já desenvolvemos.
+
+Estamos sempre em busca de inovação e excelência, garantindo que nossos clientes tenham uma experiência única e satisfatória ao trabalhar conosco. Valorizamos a comunicação aberta e transparente, trabalhando em estreita colaboração com você para entender suas metas e objetivos.
+
+Além disso, temos uma história de sucesso comprovada, tendo ajudado diversas empresas a alcançarem seus resultados desejados por meio de soluções digitais eficientes. Estamos ansiosos para compartilhar nossa experiência e conhecimento com você.
+
+Se você tiver alguma dúvida, quiser solicitar um orçamento ou simplesmente entrar em contato conosco, não hesite em utilizar o botão abaixo. Nossa equipe estará pronta para responder às suas perguntas e ajudá-lo no que for necessário. Estamos ansiosos para trabalhar com você e transformar suas ideias em realidade.
+            </Text>
+
+           
+
+          </View>
+
+           <View style={styles.teste}> 
+          <Button
+          onPress={abrirModalContato}
+            title='Entrar em contato'
+            >
+
+            </Button>
+            </View>
+
+        </ScrollView>
+    </View>
     </View>
   );
 }
@@ -76,6 +256,7 @@ function PortifolioScreen({navigation, route}) {
           width: 0,
           height: 0,
           ratio: 0,
+          website: "https://www.youtube.com/watch?v=Uds7g3M-4lQ",
          }
 
     ]);
@@ -85,7 +266,7 @@ function PortifolioScreen({navigation, route}) {
       useEffect(() => {
         let windowWidthN = Dimensions.get('window').width;
          
-//?        Margin: 15 x 2 (lados hoorizontal) = 30
+//?        Margin: 15 x 2 (lados horizontal) = 30
 //!        Padding: 20 x 2 = 40
         setWindowWidth(windowWidthN - 30 - 40);
 
@@ -104,13 +285,24 @@ function PortifolioScreen({navigation, route}) {
       }, [])
       
 
+      const abrirNavegador = async (website) => {
+            let result = await WebBrowser.openBrowserAsync(website);
+      }
+
   return ( 
     <View style={{ flex: 1, padding: 15, }}>
         <ScrollView contentContainerStyle={{padding: 20}} 
       style={styles.container}>
-            {
+           
+        <Text style={styles.textHeader}>
+          Os últimos projetos!
+        </Text>
+
+        {
               imagens.map((val) => {
-                <View>
+                return(
+                <View key={val.img}
+                style={styles.parentImage}>
 
                   <Image
                   style={{width: windowWidth, 
@@ -119,18 +311,15 @@ function PortifolioScreen({navigation, route}) {
                   source={val.img}
                   />
 
-                  <TouchableOpacity>
-                    <Text>Abrir no  navegador</Text>
-                  </TouchableOpacity>
+                  <Button
+                  title='Abrir no navegador'
+                  onPress={() => abrirNavegador(val.website)}>
+                     
+                  </Button>
 
                 </View>
-              })
+              )})
             }
-        <Text style={styles.textHeader}>
-          Os últimos projetos!
-        </Text>
-
-
 
       </ScrollView>
     </View>
@@ -202,6 +391,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 15,   
     textAlign: 'center', 
+    marginHorizontal: 30,
+
   },
 
   btnNavigation: {
@@ -211,4 +402,76 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: 'row',     
   },
+
+  parentImage: {
+    marginTop: 30,
+  },
+
+  botaoAbrirNavegador: {
+    padding: 10,
+    
+  },
+
+  divParagrafo: {
+     textAlign: 'center',
+     justifyContent: 'center',
+     alignItems: 'center',
+  },
+
+  tituloImage: {
+        fontSize: 20,
+        marginTop: 10,
+  },
+
+  paragrafo: {
+          fontSize: 16,
+          marginVertical: 10,
+  },
+
+  modalParent: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    zIndex: 1,
+  },
+
+  boxModal: {
+    backgroundColor: 'white',
+    height: 370,
+    width: '100%',
+    position: 'absolute',
+    left: 0,
+    top: '50%',
+//!    370 / 2 = 185   
+    marginTop: -185,
+    padding: 10,
+  },
+
+  close: {
+    position: 'absolute',
+    right: 0,
+    backgroundColor: 'red',
+    padding: 5,
+    borderRadius: 20,
+    color: "white",
+    width: 35, 
+    marginRight: 10,
+    marginTop: 10,
+},  
+
+
+textInput: {
+    height: 50,
+    width: '100%',
+    borderBottomColor: 'black',
+    borderWidth: 1,
+    marginBottom: 20,
+    borderRadius: 30,
+    paddingLeft: 10
+},
+
+
 });
