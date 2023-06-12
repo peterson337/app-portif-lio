@@ -256,9 +256,40 @@ function PortifolioScreen({navigation, route}) {
           width: 0,
           height: 0,
           ratio: 0,
-          website: "https://www.youtube.com/watch?v=Uds7g3M-4lQ",
-         }
+          website: "https://web-app-previcao-de-tempo.vercel.app/",
+         },
 
+         {
+          img: require('./resources/projeto2.png'),
+          width: 0,
+          height: 0,
+          ratio: 0,
+          website: "https://web-app-clone-google-drive.vercel.app/",
+         }, 
+         
+         {
+          img: require('./resources/projeto3.png'),
+          width: 0,
+          height: 0,
+          ratio: 0,
+          website: "https://clone-instagram-44ffb.web.app/",
+         },
+
+         {
+          img: require('./resources/projeto4.png'),
+          width: 0,
+          height: 0,
+          ratio: 0,
+          website: "https://lista-de-tarefas-2e5f8.web.app/",
+         },
+
+         {
+          img: require('./resources/projeto5.png'),
+          width: 0,
+          height: 0,
+          ratio: 0,
+          website: "https://web-app-ead.vercel.app/",
+         },
     ]);
 
       const [windowWidth, setWindowWidth] = useState(0);    
