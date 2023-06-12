@@ -15,9 +15,7 @@ TextInput,
 }
  from 'react-native';
 import {db} from "./firebase";
-import { collection, addDoc } from "firebase/firestore";
-
-
+import { addDoc, collection } from "firebase/firestore";
 
 //!      Impotações do react navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -93,10 +91,10 @@ function SobreScreen() {
     setShowModal(true);
   }
 
-  const EnviarFormulario = async () => {
-      const docRef = await db.collection("contato").add({
+  const EnviarFormulario =  () => {
+    const docRef =  addDoc(collection(db, "contato"), {
       nome: nome,
-      mensagem: messagem,
+      messagem: messagem
     });
     
   
@@ -147,6 +145,7 @@ function SobreScreen() {
         style={styles.textInput}
         placeholder='Escreva o seu nome'
         onChangeText={(text) => setNome(text)}
+        value={nome}
         >
           
         </TextInput>
@@ -161,13 +160,14 @@ function SobreScreen() {
         style={{...styles.textInput,  height: 80}}
         placeholder='Escreva o sua mensagem'
         onChangeText={(text) => setMessagem(text)}
+        value={messagem}
         >
           
         </TextInput>
 
         <Button
         title='Enviar!'
-        onPress={EnviarFormulario}
+        onPress={() => EnviarFormulario()}
         >
         
         </Button>
