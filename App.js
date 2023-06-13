@@ -92,6 +92,7 @@ function SobreScreen() {
   }
 
   const EnviarFormulario =  () => {
+    
     const docRef =  addDoc(collection(db, "contato"), {
       nome: nome,
       messagem: messagem
@@ -129,11 +130,7 @@ function SobreScreen() {
               onPress={() => setShowModal(false)}
               style={styles.close}
               />
-              <Text
-          style={{...styles.textHeader, fontSize: 24, borderBottomWidth: 0,}}
-          >
-              Entrar em contato 
-         </Text> 
+  
 
          <Text
           style={{...styles.textHeader, fontSize: 20, borderBottomWidth: 0,}}
@@ -157,7 +154,7 @@ function SobreScreen() {
          </Text>   
 
         <TextInput
-        style={{...styles.textInput,  height: 80}}
+        style={{...styles.textInput,  height: 80, borderRadius: 20}}
         placeholder='Escreva o sua mensagem'
         onChangeText={(text) => setMessagem(text)}
         value={messagem}
@@ -208,26 +205,26 @@ function SobreScreen() {
             width: windowWidth,
             height: windowWidth,
             marginTop: 20,
+            borderRadius: 200,
           }}
-          source={{
-            uri: `https://thicc.mywaifulist.moe/waifus/2108/1e10867a3dae59140fc4017543479f862fe3cec9e9c100d58ff112a655531d26_thumb.jpg`
-          }}/>
+          source={
+                  require('./resources/IMG-20221209-WA0002.jpg')
+          }/>
 
           <View style={styles.divParagrafo}>
 
             <Text style={styles.tituloImage}>
-                Teste / desenvolvdedor front-end
+                Peterson Rodrigues dos Santos desenvolvdedor de front-end
             </Text>
 
             <Text style={styles.paragrafo}>
                 
-Nesta aba, você verá informações sobre o nome da nossa empresa, como trabalhamos, o preço para criarmos um web app ou um app, a nossa história e muito mais. Estamos comprometidos em oferecer soluções digitais de alta qualidade e personalizadas para atender às necessidades do seu negócio. Aqui, você encontrará detalhes sobre os serviços que oferecemos, as tecnologias que utilizamos e os projetos que já desenvolvemos.
+            Meu nome é Peterson Rodrigues do Santos e sou um desenvolvedor front-end especializado na criação de aplicativos e web apps. Se você estiver interessado nos meus serviços, fique à vontade para utilizar o botão abaixo e entrar em contato. Estou pronto para ajudar a transformar suas ideias em realidade digital.  👇
 
-Estamos sempre em busca de inovação e excelência, garantindo que nossos clientes tenham uma experiência única e satisfatória ao trabalhar conosco. Valorizamos a comunicação aberta e transparente, trabalhando em estreita colaboração com você para entender suas metas e objetivos.
 
-Além disso, temos uma história de sucesso comprovada, tendo ajudado diversas empresas a alcançarem seus resultados desejados por meio de soluções digitais eficientes. Estamos ansiosos para compartilhar nossa experiência e conhecimento com você.
 
-Se você tiver alguma dúvida, quiser solicitar um orçamento ou simplesmente entrar em contato conosco, não hesite em utilizar o botão abaixo. Nossa equipe estará pronta para responder às suas perguntas e ajudá-lo no que for necessário. Estamos ansiosos para trabalhar com você e transformar suas ideias em realidade.
+
+
             </Text>
 
            
